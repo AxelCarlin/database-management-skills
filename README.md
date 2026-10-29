@@ -1,39 +1,45 @@
 # Database Management Skills
 
-Colección de skills para diseño, administración y análisis de bases de datos.
+A collection of skills for designing, administering, and reviewing databases.
 
-Cada skill vive en su propia carpeta dentro de `skills/` y sigue el formato de un archivo `SKILL.md` con frontmatter YAML.
+Each skill lives in its own folder under `skills/` and follows the `SKILL.md` format with YAML front matter.
 
-## Skills incluidas
+## Design target: SQL Server and .NET
+
+These skills were designed primarily for **SQL Server** and **.NET** projects, specifically **.NET 10**. Their data type mappings, audit columns, nullability policies, naming conventions, and examples are optimized for that stack.
+
+They can still work with other database engines and runtimes, but some definitions may need adaptation. For example, SQL Server types such as `datetime2` and `tinyint`, defaults such as `SYSUTCDATETIME()`, and .NET mappings such as `DateTime` and `byte` are specific to this target stack.
+
+## Included skills
 
 ### `dbml-sqlserver-schema-admin`
 
-Diseña, normaliza, renombra y corrige esquemas de base de datos escritos en DBML para SQL Server.
+Designs, normalizes, renames, and corrects database schemas written in DBML for SQL Server.
 
-Convenciones principales:
+Main conventions:
 
-- Entidades en `UpperCamelCase` y singular.
-- Llave primaria `Id`.
-- Llaves foráneas con prefijo `Id`.
-- Columnas de auditoría obligatorias.
-- Orden fijo de columnas.
-- Tablas de catálogo para campos categóricos.
-- Tercera forma normal.
-- Módulos y secciones claramente separados.
+- `UpperCamelCase` singular entity names.
+- `Id` primary keys.
+- Foreign keys prefixed with `Id`.
+- Mandatory audit columns.
+- Fixed column order.
+- Lookup tables for categorical fields.
+- Third Normal Form.
+- Clearly separated modules and sections.
 
-Esta variante deja `ModifiedAt` e `IdModifiedBy` como `NULL` hasta la primera modificación del registro.
+This variant keeps `ModifiedAt` and `IdModifiedBy` as `NULL` until the record is first modified.
 
 ### `dbml-sqlserver-schema-detective`
 
-La misma base de diseño DBML/SQL Server, pero con otra política de auditoría:
+The same DBML/SQL Server design baseline, but with a different audit policy:
 
-- `ModifiedAt` e `IdModifiedBy` son obligatorios desde la creación.
-- Al crear, `IdModifiedBy` toma el valor de `IdCreatedBy`.
+- `ModifiedAt` and `IdModifiedBy` are mandatory from creation.
+- On insert, `IdModifiedBy` takes the value of `IdCreatedBy`.
 
 > [!IMPORTANT]
-> Ambas skills declaran el mismo `name: dbml-sqlserver-schema`. Instala o activa solo una variante a la vez para evitar colisiones.
+> Both skills declare the same `name: dbml-sqlserver-schema`. Install or enable only one variant at a time to avoid collisions.
 
-## Estructura
+## Structure
 
 ```text
 database-management-skills/
@@ -49,12 +55,12 @@ database-management-skills/
             └── example.dbml
 ```
 
-## Uso
+## Usage
 
-1. Elige la variante que corresponda a la política de auditoría de tu proyecto.
-2. Copia su carpeta al directorio de skills de tu agente o herramienta.
-3. Mantén el archivo `SKILL.md` y la carpeta `references/` juntos.
+1. Choose the variant that matches your project's audit policy.
+2. Copy its folder into the skills directory used by your agent or tool.
+3. Keep the `SKILL.md` file and the `references/` folder together.
 
-## Alcance
+## Scope
 
-SQL Server es la única parte específica de la plataforma: tipos de datos y valores por defecto. Las reglas de nombres, normalización, auditoría y organización son agnósticas al dominio.
+The naming, normalization, audit, and organization rules are domain-agnostic. The platform-specific parts are the SQL Server data types and defaults and the .NET type mappings. Adapt those parts when using another engine or runtime.
